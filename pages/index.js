@@ -1,9 +1,21 @@
 import React from 'react'
-import styled from 'styled-components'
+import { StripeProvider, Elements, injectStripe } from 'react-stripe-elements'
 
-const Title = styled.h1`
-  color: red;
-  font-size: 50px;
-`
-
-export default () => <Title>My page</Title>
+export default class App extends React.Component {
+    constructor() {
+        super()
+        this.state = { stripe: null }
+    }
+    componentDidMount() {
+        // Create Stripe instance in componentDidMount
+        // (componentDidMount only fires in browser/DOM environment)
+        this.setState({ stripe: window.Stripe('pk_test_12345') })
+    }
+    render() {
+        return (
+            <StripeProvider stripe={this.state.stripe}>
+                <div>hello</div>
+            </StripeProvider>
+        )
+    }
+}
